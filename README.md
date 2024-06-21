@@ -31,10 +31,10 @@ Kami memutuskan untuk menggunakan Digital Ocean sebagai
 #### Tabel Harga
 | No. | Nama              | Spesifikasi                                                                 | Fungsi                              | Harga/Bulan |
 |-----|-------------------|-----------------------------------------------------------------------------|-------------------------------------|-------------|
-| 1.  | worker_1 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 1                        | 18$         |
-| 2.  | worker_2 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 2                        | 18$         |
-| 3.  | mongo_db | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | Mongo Database                      | 18$         |
-| 4.  | load_balancing | 1 Intel vCPU / 1GB Memory / 10GB Disk SSD / Asia-Southeast2(Jakarta) - Ubuntu 24.04 (LTS) x64 | Load Balancer 1 (Round-Robin)       | 6$          |
-|     |                   |                                                                             | **Total**                           | **64$**     |
+| 1.  | worker_1 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 1                        | 12$         |
+| 2.  | worker_2 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 2                        | 12$         |
+| 3.  | mongo_db | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | Mongo Database                      | 15$         |
+| 4.  | load_balancing | 1 Intel vCPU / 1GB Memory / 10GB Disk SSD / Asia-Southeast2(Jakarta) - Ubuntu 24.04 (LTS) x64 | Load Balancer 1 (Round-Robin)       | 24$          |
+|     |                   |                                                                             | **Total**                           | **63$**     |
 
 ## Implementasi
