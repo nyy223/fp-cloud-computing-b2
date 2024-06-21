@@ -110,3 +110,5 @@ sudo service nginx restart
 
 ### Locus
 ![WhatsApp Image 2024-06-21 at 20 13 02](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/01a52432-2cf4-4c18-abcc-c04cd6755054)
+![WhatsApp Image 2024-06-21 at 20 20 09](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e6337dc9-0c34-4a6a-ac61-35b7d1efeeb4)
+
