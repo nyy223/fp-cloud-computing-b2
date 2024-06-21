@@ -38,3 +38,67 @@ Kami memutuskan untuk menggunakan Digital Ocean sebagai
 |     |                   |                                                                             | **Total**                           | **63$**     |
 
 ## Implementasi
+### Konfigurasi Worker 1 & Worker 2
+1. Menyambungkan terminal laptop ke terminal VM
+```bash
+ssh root@64.227.10.125
+```
+<img width="682" alt="Screenshot 2024-06-21 at 17 11 40" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/a9f7e4a6-eb1e-4ec4-b5ce-055cd4a7531b">
+
+2. Install resource yang dibutuhkan
+```bash
+wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/FE/index.html
+wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/FE/styles.css
+wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/BE/sentiment-analysis.py
+```
+
+3. Install nginx
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install nginx -y
+```
+
+4. Install dependency python
+```bash
+sudo apt update
+sudo apt install python3 -y
+sudo apt install python3-pip -y
+sudo apt install python3.12-venv
+
+python3 -m venv myenv
+source myenv/bin/activate
+
+pip install flask
+pip install flask_cors
+pip install gunicorn
+pip install flask_pymongo
+pip install textblob
+pip install pymongo
+pip install gevent
+```
+```bash
+mv index.html /var/www/html/index.html
+```
+
+5. Ubah fetch pada index.html agar mengarah ke ip worker yang dituju
+<img width="880" alt="Screenshot 2024-06-21 at 17 29 38" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7eb22fbe-4fef-461c-908b-161aeb2f0769">
+<img width="878" alt="Screenshot 2024-06-21 at 17 29 57" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/0dfff9f2-1119-4419-a07d-bbbef6a41bbd">
+
+6. Konfigurasi /etc/nginx/sites-enabled/default
+<img width="557" alt="Screenshot 2024-06-21 at 17 33 37" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/c0a805bc-e355-4df4-a3c5-85b2a858fae7">
+
+7. Konfigurasi ip database pada sentiment-analysis.py
+<img width="692" alt="Screenshot 2024-06-21 at 17 41 28" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e6f0e355-95bd-4a7d-a8ac-9744e660ddc4">
+
+8. Restart nginx
+```bash
+sudo service nginx restart
+```
+
+9. Jalankan sentiment-analysis.py
+<img width="886" alt="Screenshot 2024-06-21 at 16 50 25" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/961c169a-a70d-4cc6-8369-1a82ab5f40c4">
+<img width="527" alt="Screenshot 2024-06-21 at 17 48 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/dafba215-fde5-445e-843f-c4b828fadbad">
+
+10. Buat Load Balancer dan pilih droplet worker yang sudah dibuat sebelumnya.
+<img width="1170" alt="Screenshot 2024-06-21 at 18 01 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/f02e85cf-6c6c-4ca6-9340-dc11f9dae853">
