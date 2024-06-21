@@ -107,3 +107,6 @@ sudo service nginx restart
 ### Postman
 <img width="1404" alt="Screenshot 2024-06-21 at 20 05 04" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/26bdca23-379f-48ef-acca-34ad05139366">
 <img width="1373" alt="Screenshot 2024-06-21 at 20 07 16" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/3c195768-fe8c-4deb-b503-02f78acb5779">
+
+### Locus
+![WhatsApp Image 2024-06-21 at 20 13 02](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/01a52432-2cf4-4c18-abcc-c04cd6755054)
