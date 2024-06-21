@@ -102,3 +102,8 @@ sudo service nginx restart
 
 10. Buat Load Balancer dan pilih droplet worker yang sudah dibuat sebelumnya.
 <img width="1170" alt="Screenshot 2024-06-21 at 18 01 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/f02e85cf-6c6c-4ca6-9340-dc11f9dae853">
+
+## Pengujian
+### Postman
+<img width="1404" alt="Screenshot 2024-06-21 at 20 05 04" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/26bdca23-379f-48ef-acca-34ad05139366">
+<img width="1373" alt="Screenshot 2024-06-21 at 20 07 16" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/3c195768-fe8c-4deb-b503-02f78acb5779">
