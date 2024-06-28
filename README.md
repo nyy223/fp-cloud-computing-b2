@@ -23,10 +23,13 @@ Kemudian juga disediakan sebuah Frontend sederhana menggunakan index.html dan st
 Kemudian anda diminta untuk mendesain arsitektur cloud yang sesuai dengan kebutuhan aplikasi tersebut. Apabila dana maksimal yang diberikan adalah 1 juta rupiah per bulan (65 US$) konfigurasi cloud terbaik seperti apa yang bisa dibuat?
 
 ## Rancangan Arsitektur Awan
-Kami memutuskan untuk menggunakan Digital Ocean sebagai  
+Kami memutuskan untuk menggunakan Digital Ocean sebagai cloud provider untuk final project kami.
 
 #### Rancangan Arsitektur
 ![final project](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/2783e2ea-3ca5-4ed5-b507-27d8f761b3d1)
+
+#### Revisi rancangan arsitektur
+![final project](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/755f0a3e-852d-41f6-aeec-7bd3169c2290)
 
 #### Tabel Harga
 | No. | Nama              | Spesifikasi                                                                 | Fungsi                              | Harga/Bulan |
