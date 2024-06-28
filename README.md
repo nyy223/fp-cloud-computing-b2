@@ -1,4 +1,4 @@
-# Final Project
+![WhatsApp Image 2024-06-28 at 16 35 03](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/47839b66-70b8-4ac9-8250-617731166c38)<img width="605" alt="Screenshot 2024-06-29 at 00 30 15" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7e0995db-958b-4d90-a567-df8d99a47804"><img width="605" alt="Screenshot 2024-06-29 at 00 30 15" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/acf43dea-cdf9-4510-9f96-2ec9f36cce23"># Final Project
 
 ### Teknologi Komputasi Awan
 #### Kelas B Kelompok 2
@@ -113,12 +113,18 @@ gunicorn --bind 0.0.0.0:5000 -w 8 -k gevent --timeout 120 sentiment-analysis:app
 <img width="984" alt="image" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/a6768b79-daa8-4d49-b826-ef29fbebeb2f">
 
 ## Konfigurasi VM Load Balancer
-1. Instalasi Nginx
+1. Menyambungkan load balancer ke terminal
+```bash
+ssh root@ip-lb
+```
+<img width="605" alt="Screenshot 2024-06-29 at 00 30 15" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/87514c72-395f-4f75-9614-544b8ce3a8ca">
+ 
+2. Instalasi Nginx
 ```bash
 sudo apt update
 sudo apt install nginx
 ```
-2. Modifikasi /etc/nginx/nginx.conf
+3. Modifikasi /etc/nginx/nginx.conf
 ```bash
 user www-data;
 worker_processes auto;
@@ -164,7 +170,7 @@ http {
     include /etc/nginx/sites-enabled/*;
 }
 ```
-3. Buat konfigurasi untuk Load balancer
+4. Buat konfigurasi untuk Load balancer
 ```bash
 upstream backend {
     server 159.223.67.51:5000;
@@ -199,11 +205,11 @@ server {
     }
 }
 ```
-4. Aktifkan konfigurasi load balancer
+5. Aktifkan konfigurasi load balancer
 ```bash
 sudo ln -s /etc/nginx/sites-available/load_balancer /etc/nginx/sites-enabled/
 ```
-5. Uji Konfigurasi dan Reload Nginx
+6. Uji Konfigurasi dan Reload Nginx
 ```bash
 sudo nginx -t
 sudo systemctl reload nginx
@@ -212,6 +218,9 @@ sudo systemctl reload nginx
 ## Hasil Pengujian Setiap Endpoint
 ![WhatsApp Image 2024-06-28 at 23 12 18](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/143aa57a-60fc-44df-afe0-a7a9a01d17f6)
 ![WhatsApp Image 2024-06-28 at 23 10 46](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7dfe295e-c29f-4d61-a906-ec6df76624b5)
+
+### Pengujian Frontend (salah satu worker)
+![WhatsApp Image 2024-06-28 at 16 35 03](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/2c031764-cf01-452f-91e9-2f44236b19fa)
 
 ## Hasil Pengujian dan Analisis Loadtesting Locust
 - Peak Concurrency Maksimum 1000 (spawn rate 50, load testing 60 detik)
