@@ -95,8 +95,11 @@ sudo service nginx restart
 ```
 
 9. Jalankan sentiment-analysis.py
-<img width="886" alt="Screenshot 2024-06-21 at 16 50 25" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/961c169a-a70d-4cc6-8369-1a82ab5f40c4">
-<img width="527" alt="Screenshot 2024-06-21 at 17 48 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/dafba215-fde5-445e-843f-c4b828fadbad">
+(pastikan virtual environment sudah aktif)
+```bash
+gunicorn --bind 0.0.0.0:5000 -w 8 -k gevent --timeout 120 sentiment-analysis:app
+```
+<img width="984" alt="image" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/a6768b79-daa8-4d49-b826-ef29fbebeb2f">
 
 ## Konfigurasi VM Load Balancer
 1. Instalasi Nginx
