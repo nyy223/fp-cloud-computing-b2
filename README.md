@@ -37,8 +37,7 @@ Kami memutuskan untuk menggunakan Digital Ocean sebagai
 | 4.  | load_balancing | 1 Intel vCPU / 1GB Memory / 10GB Disk SSD / Asia-Southeast2(Jakarta) - Ubuntu 24.04 (LTS) x64 | Load Balancer 1 (Round-Robin)       | 24$          |
 |     |                   |                                                                             | **Total**                           | **63$**     |
 
-## Implementasi
-### Konfigurasi Worker 1 & Worker 2
+## Konfigurasi Worker 1 & Worker 2
 1. Menyambungkan terminal laptop ke terminal VM
 ```bash
 ssh root@64.227.10.125
@@ -77,16 +76,15 @@ pip install textblob
 pip install pymongo
 pip install gevent
 ```
-```bash
-mv index.html /var/www/html/index.html
-```
 
 5. Ubah fetch pada index.html agar mengarah ke ip worker yang dituju
 <img width="880" alt="Screenshot 2024-06-21 at 17 29 38" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7eb22fbe-4fef-461c-908b-161aeb2f0769">
 <img width="878" alt="Screenshot 2024-06-21 at 17 29 57" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/0dfff9f2-1119-4419-a07d-bbbef6a41bbd">
 
-6. Konfigurasi /etc/nginx/sites-enabled/default
-<img width="557" alt="Screenshot 2024-06-21 at 17 33 37" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/c0a805bc-e355-4df4-a3c5-85b2a858fae7">
+6. Pindahkan resources untuk FE ke /var/www/html
+```bash
+mv index.html /var/www/html/index.html && mv styles.css /var/www/html/styles.css
+```
 
 7. Konfigurasi ip database pada sentiment-analysis.py
 <img width="692" alt="Screenshot 2024-06-21 at 17 41 28" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e6f0e355-95bd-4a7d-a8ac-9744e660ddc4">
@@ -100,15 +98,117 @@ sudo service nginx restart
 <img width="886" alt="Screenshot 2024-06-21 at 16 50 25" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/961c169a-a70d-4cc6-8369-1a82ab5f40c4">
 <img width="527" alt="Screenshot 2024-06-21 at 17 48 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/dafba215-fde5-445e-843f-c4b828fadbad">
 
-10. Buat Load Balancer dan pilih droplet worker yang sudah dibuat sebelumnya.
-<img width="1170" alt="Screenshot 2024-06-21 at 18 01 10" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/f02e85cf-6c6c-4ca6-9340-dc11f9dae853">
+## Konfigurasi VM Load Balancer
+1. Instalasi Nginx
+```bash
+sudo apt update
+sudo apt install nginx
+```
+2. Modifikasi /etc/nginx/nginx.conf
+```bash
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+worker_rlimit_nofile 100000;
 
-## Pengujian
+
+events {
+    worker_connections 4096;
+    multi_accept on;
+    use epoll;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    server_tokens off;
+
+    # Cache configuration
+    proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=my_cache:10m max_size=1g inactive=60m use_temp_path=off;
+    proxy_temp_path /var/cache/nginx/temp;
+    proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+    proxy_cache_lock on;
+    proxy_cache_lock_timeout 5s;
+
+    gzip on;
+    gzip_comp_level 2;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+```
+3. Buat konfigurasi untuk Load balancer
+```bash
+upstream backend {
+    server 159.223.67.51:5000;
+    server 167.172.80.197:5000;
+}
+
+server {
+    listen 80;
+    server_name 152.42.248.218;  # Ganti dengan IP load balancer
+
+    location / {
+        proxy_cache my_cache;
+        proxy_cache_valid 200 302 10m;
+        proxy_cache_valid 404 1m;
+
+        proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+        proxy_cache_lock on;
+        proxy_cache_lock_timeout 5s;
+
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header X-Cached $upstream_cache_status;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+        send_timeout 60s;
+    }
+}
+```
+4. Aktifkan konfigurasi load balancer
+```bash
+sudo ln -s /etc/nginx/sites-available/load_balancer /etc/nginx/sites-enabled/
+```
+5. Uji Konfigurasi dan Reload Nginx
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## Hasil Pengujian Setiap Endpoint
 ### Postman
 <img width="1404" alt="Screenshot 2024-06-21 at 20 05 04" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/26bdca23-379f-48ef-acca-34ad05139366">
 <img width="1373" alt="Screenshot 2024-06-21 at 20 07 16" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/3c195768-fe8c-4deb-b503-02f78acb5779">
 
-### Locus
-![WhatsApp Image 2024-06-21 at 20 13 02](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/01a52432-2cf4-4c18-abcc-c04cd6755054)
-![WhatsApp Image 2024-06-21 at 20 20 09](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e6337dc9-0c34-4a6a-ac61-35b7d1efeeb4)
+## Hasil Pengujian dan Analisis Loadtesting Locust
+- Peak Concurrency Maksimum 1000 (spawn rate 50, load testing 60 detik)
+![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/2df444a6-7430-4829-abca-547a8387efc9)
+- Peak Concurrency Maksimum 2000 (spawn rate 100, load testing 60 detik)
+![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/395c5414-7048-4cc0-93a4-f99608ba16d0)
+- Peak Concurrency Maksimum 3000 (spawn rate 200, load testing 60 detik)
+![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/33448e20-1112-40ff-9efc-46e6e135a9f5)
+- Peak Concurrency Maksimum 4000 (spawn rate 500, load testing 60 detik)
+![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/fac5b3f5-8160-4756-837b-88f7f52fdf6c)
+
+
 
