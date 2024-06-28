@@ -1,4 +1,4 @@
-![WhatsApp Image 2024-06-28 at 16 35 03](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/47839b66-70b8-4ac9-8250-617731166c38)<img width="605" alt="Screenshot 2024-06-29 at 00 30 15" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7e0995db-958b-4d90-a567-df8d99a47804"><img width="605" alt="Screenshot 2024-06-29 at 00 30 15" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/acf43dea-cdf9-4510-9f96-2ec9f36cce23"># Final Project
+# Final Project
 
 ### Teknologi Komputasi Awan
 #### Kelas B Kelompok 2
