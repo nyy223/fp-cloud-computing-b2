@@ -1,4 +1,4 @@
-<img width="667" alt="Screenshot 2024-06-28 at 23 46 51" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/58a725f2-c1b1-4742-8985-3f21af1a0069"># Final Project
+# Final Project
 
 ### Teknologi Komputasi Awan
 #### Kelas B Kelompok 2
@@ -31,11 +31,11 @@ Kami memutuskan untuk menggunakan Digital Ocean sebagai
 #### Tabel Harga
 | No. | Nama              | Spesifikasi                                                                 | Fungsi                              | Harga/Bulan |
 |-----|-------------------|-----------------------------------------------------------------------------|-------------------------------------|-------------|
-| 1.  | worker_1 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 1                        | 12$         |
-| 2.  | worker_2 | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 2                        | 12$         |
+| 1.  | worker_1 | 2 Intel vCPU / 2GB Memory / 90 GB Disk / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 1                        | 24$         |
+| 2.  | worker_2 | 1 Intel vCPU / 2GB Memory / 70 GB Disk / SGP1 - Ubuntu 24.04 (LTS) x64   | App Worker 2                        | 16$         |
 | 3.  | mongo_db | 2 Intel vCPU / 2GB Memory / 60GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64   | Mongo Database                      | 15$         |
-| 4.  | load_balancing | 1 Intel vCPU / 1GB Memory / 10GB Disk SSD / Asia-Southeast2(Jakarta) - Ubuntu 24.04 (LTS) x64 | Load Balancer 1 (Round-Robin)       | 24$          |
-|     |                   |                                                                             | **Total**                           | **63$**     |
+| 4.  | load_balancing | 1 Intel vCPU / 512MB Memory / 10GB Disk SSD / SGP1 - Ubuntu 24.04 (LTS) x64 | Load Balancer       | 4$          |
+|     |                   |                                                                             | **Total**                           | **59$**     |
 
 ## Konfigurasi Worker 1 & Worker 2
 1. Buat database dan copy connection string dengan menggunakan aplikasi MongoDB Compass
