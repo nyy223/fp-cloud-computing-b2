@@ -1,4 +1,4 @@
-# Final Project
+<img width="667" alt="Screenshot 2024-06-28 at 23 46 51" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/58a725f2-c1b1-4742-8985-3f21af1a0069"># Final Project
 
 ### Teknologi Komputasi Awan
 #### Kelas B Kelompok 2
@@ -38,27 +38,34 @@ Kami memutuskan untuk menggunakan Digital Ocean sebagai
 |     |                   |                                                                             | **Total**                           | **63$**     |
 
 ## Konfigurasi Worker 1 & Worker 2
-1. Menyambungkan terminal laptop ke terminal VM
-```bash
-ssh root@64.227.10.125
-```
-<img width="682" alt="Screenshot 2024-06-21 at 17 11 40" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/a9f7e4a6-eb1e-4ec4-b5ce-055cd4a7531b">
+1. Buat database dan copy connection string dengan menggunakan aplikasi MongoDB Compass
+![WhatsApp Image 2024-06-25 at 23 21 32](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e979326f-7be2-46dc-984a-bfdb26e8e585)
 
-2. Install resource yang dibutuhkan
+2. Menyambungkan terminal laptop ke terminal VM
+```bash
+ssh root@ip-worker
+```
+#### worker 1
+<img width="667" alt="Screenshot 2024-06-28 at 23 46 51" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/2fee123c-d53a-4c44-8b72-f0196135a855">
+
+#### worker 2
+<img width="671" alt="Screenshot 2024-06-28 at 23 47 17" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/702106b3-71c6-472d-b5f5-8b2506ba3c1b">
+
+3. Install resource yang dibutuhkan
 ```bash
 wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/FE/index.html
 wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/FE/styles.css
 wget https://raw.githubusercontent.com/fuaddary/fp-tka/main/Resources/BE/sentiment-analysis.py
 ```
 
-3. Install nginx
+4. Install nginx
 ```bash
 sudo apt update
 sudo apt upgrade -y
 sudo apt install nginx -y
 ```
 
-4. Install dependency python
+5. Install dependency python
 ```bash
 sudo apt update
 sudo apt install python3 -y
@@ -77,24 +84,28 @@ pip install pymongo
 pip install gevent
 ```
 
-5. Ubah fetch pada index.html agar mengarah ke ip worker yang dituju
-<img width="880" alt="Screenshot 2024-06-21 at 17 29 38" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7eb22fbe-4fef-461c-908b-161aeb2f0769">
-<img width="878" alt="Screenshot 2024-06-21 at 17 29 57" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/0dfff9f2-1119-4419-a07d-bbbef6a41bbd">
+6. Ubah fetch pada index.html agar mengarah ke ip worker yang dituju
+#### worker 1
+<img width="850" alt="Screenshot 2024-06-28 at 23 50 29" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/fb76af11-4604-4a4d-a16e-ef30603db828">
 
-6. Pindahkan resources untuk FE ke /var/www/html
+#### worker 2
+<img width="872" alt="Screenshot 2024-06-28 at 23 48 36" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/2a87c0e4-7785-4680-a839-3a6f878b5e5e">
+
+
+7. Pindahkan resources untuk FE ke /var/www/html
 ```bash
 mv index.html /var/www/html/index.html && mv styles.css /var/www/html/styles.css
 ```
 
-7. Konfigurasi ip database pada sentiment-analysis.py
+8. Konfigurasi ip database pada sentiment-analysis.py
 <img width="692" alt="Screenshot 2024-06-21 at 17 41 28" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/e6f0e355-95bd-4a7d-a8ac-9744e660ddc4">
 
-8. Restart nginx
+9. Restart nginx
 ```bash
 sudo service nginx restart
 ```
 
-9. Jalankan sentiment-analysis.py
+10. Jalankan sentiment-analysis.py
 (pastikan virtual environment sudah aktif)
 ```bash
 gunicorn --bind 0.0.0.0:5000 -w 8 -k gevent --timeout 120 sentiment-analysis:app
@@ -199,19 +210,34 @@ sudo systemctl reload nginx
 ```
 
 ## Hasil Pengujian Setiap Endpoint
-### Postman
-<img width="1404" alt="Screenshot 2024-06-21 at 20 05 04" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/26bdca23-379f-48ef-acca-34ad05139366">
-<img width="1373" alt="Screenshot 2024-06-21 at 20 07 16" src="https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/3c195768-fe8c-4deb-b503-02f78acb5779">
+![WhatsApp Image 2024-06-28 at 23 12 18](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/143aa57a-60fc-44df-afe0-a7a9a01d17f6)
+![WhatsApp Image 2024-06-28 at 23 10 46](https://github.com/nyy223/fp-cloud-computing-b2/assets/80509033/7dfe295e-c29f-4d61-a906-ec6df76624b5)
 
 ## Hasil Pengujian dan Analisis Loadtesting Locust
 - Peak Concurrency Maksimum 1000 (spawn rate 50, load testing 60 detik)
 ![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/2df444a6-7430-4829-abca-547a8387efc9)
+Dari hasil tersebut didapatkan Rata rata RPS dengan failure 0% adalah 328.7 RPS, maka nilainya 328.7 / 200 x 30 = 49.3 poin
 - Peak Concurrency Maksimum 2000 (spawn rate 100, load testing 60 detik)
 ![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/395c5414-7048-4cc0-93a4-f99608ba16d0)
+Dari hasil tersebut didapatkan Rata rata RPS dengan failure 0% adalah 584.4 RPS, maka nilainya 584.4 / 200 x 30 = 87.6 poin
 - Peak Concurrency Maksimum 3000 (spawn rate 200, load testing 60 detik)
 ![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/33448e20-1112-40ff-9efc-46e6e135a9f5)
+Dari hasil tersebut didapatkan Rata rata RPS dengan failure 0% adalah 581.1 RPS, maka nilainya 581.1 / 200 x 30 = 87.16 poin
 - Peak Concurrency Maksimum 4000 (spawn rate 500, load testing 60 detik)
 ![image](https://github.com/nyy223/fp-cloud-computing-b2/assets/164857172/fac5b3f5-8160-4756-837b-88f7f52fdf6c)
+Dari hasil tersebut didapatkan Rata rata RPS dengan failure 0% adalah 617.4 RPS, maka nilainya 617.4 / 200 x 30 = 92.6 poin
 
+## Revisi, Kesimpulan dan Saran
+### Revisi
+1. Mengubah Rancangan Arsitektur: Pada awalnya, kami menggunakan dua node load balancer yang disediakan oleh Digital Ocean. Namun, tingkat kegagalan masih tinggi dan jumlah requests per second (RPS) yang diperoleh belum memadai. Setelah kami mencoba mengonfigurasi load balancer secara mandiri tanpa menggunakan layanan yang disediakan oleh Digital Ocean, RPS yang diperoleh meningkat secara signifikan dibandingkan sebelumnya.
+2. Meningkatkan Spesifikasi Worker untuk VM: Mengganti worker dengan VM yang memiliki spesifikasi lebih tinggi dan lebih baik juga dapat meningkatkan jumlah requests per second (RPS). CPU dengan lebih banyak core memungkinkan pemrosesan lebih banyak permintaan dalam waktu yang lebih singkat, sehingga dapat meningkatkan RPS. Selain itu, kapasitas RAM yang lebih besar memungkinkan aplikasi untuk menyimpan lebih banyak data dalam memori, mengurangi waktu yang dihabiskan untuk pengambilan data dari disk yang lebih lambat, serta memungkinkan penanganan lebih banyak permintaan secara bersamaan.
 
+### Kesimpulan
+Melakukan konfigurasi load balancer secara mandiri dapat menghasilkan kinerja yang lebih baik dibandingkan dengan menggunakan load balancer yang disediakan oleh penyedia layanan cloud seperti Digital Ocean. Hal ini terbukti dari peningkatan signifikan dalam jumlah requests per second (RPS) setelah melakukan perubahan tersebut. Selain itu, mengganti virtual machine (VM) yang memiliki spesifikasi lebih tinggi dapat menghasilkan hasil akhir yang lebih optimal. 
 
+### Saran
+1. Pertimbangan Spesifikasi VM: Spesifikasi VM seperti jumlah core CPU dan kapasitas RAM sangat penting dalam menentukan kinerja aplikasi. Memilih VM dengan spesifikasi yang lebih tinggi dapat meningkatkan kemampuan pemrosesan permintaan dan efisiensi penyimpanan data dalam memori, sehingga mengoptimalkan RPS.
+2. Optimasi Infrastruktur: Pengaturan dan optimasi infrastruktur, termasuk load balancer dan VM, dapat berdampak besar pada kinerja sistem. Menginvestasikan waktu dan sumber daya untuk menyesuaikan konfigurasi infrastruktur sesuai kebutuhan dapat memberikan hasil yang lebih baik daripada menggunakan solusi standar.
+* Monitoring dan Analisis Kinerja: Penting untuk terus memonitor dan menganalisis kinerja sistem untuk mengidentifikasi bottleneck dan area yang dapat dioptimalkan. Ini membantu dalam membuat keputusan yang berdasarkan data untuk meningkatkan kinerja aplikasi.
+* Load Balancing yang Efektif: Menggunakan load balancer yang terkonfigurasi dengan baik dapat mendistribusikan beban secara merata di seluruh server. Hal ini tidak hanya meningkatkan kinerja tetapi juga memastikan kelancaran jaringan dan mencegah satu titik kegagalan.
+* Kelancaran koneksi internet: Stabilitas koneksi internet yang baik memastikan bahwa permintaan dari klien dapat diterima dan diteruskan ke server tanpa gangguan. Koneksi yang tidak stabil dapat menyebabkan kehilangan paket data atau latency tinggi, yang mengurangi efisiensi load balancer. Selain itu, load balancer sering kali menangani banyak permintaan sekaligus, sehingga memerlukan bandwidth yang cukup untuk menjalankan operasinya secara efektif. Koneksi internet yang buruk dengan bandwidth terbatas dapat menjadi bottleneck, mengurangi kemampuan load balancer untuk menangani beban kerja tinggi.
