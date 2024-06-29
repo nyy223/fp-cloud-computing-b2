@@ -128,7 +128,86 @@ sudo apt update
 sudo apt install nginx
 ```
 3. Modifikasi /etc/nginx/nginx.conf
+```bash
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+worker_rlimit_nofile 100000;
+
+
+events {
+    worker_connections 4096;
+    multi_accept on;
+    use epoll;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    server_tokens off;
+
+    # Cache configuration
+    proxy_cache_path /var/cache/nginx levels=1:2 keys_zone=my_cache:10m max_size=1g inactive=60m use_temp_path=off;
+    proxy_temp_path /var/cache/nginx/temp;
+    proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+    proxy_cache_lock on;
+    proxy_cache_lock_timeout 5s;
+
+    gzip on;
+    gzip_comp_level 2;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+```
 4. Buat konfigurasi untuk Load balancer pada /etc/nginx/sites-available/load_balancer
+```bash
+upstream backend {
+    server 159.223.67.51:5000;
+    server 167.172.80.197:5000;
+}
+
+server {
+    listen 80;
+    server_name 152.42.248.218;  # Ganti dengan IP load balancer
+
+    location / {
+        proxy_cache my_cache;
+        proxy_cache_valid 200 302 10m;
+        proxy_cache_valid 404 1m;
+
+        proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+        proxy_cache_lock on;
+        proxy_cache_lock_timeout 5s;
+
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header X-Cached $upstream_cache_status;
+
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+        send_timeout 60s;
+    }
+}
+```
 5. Aktifkan konfigurasi load balancer
 ```bash
 sudo ln -s /etc/nginx/sites-available/load_balancer /etc/nginx/sites-enabled/
