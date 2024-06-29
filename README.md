@@ -174,3 +174,6 @@ Melakukan konfigurasi load balancer secara mandiri dapat menghasilkan kinerja ya
 * Monitoring dan Analisis Kinerja: Penting untuk terus memonitor dan menganalisis kinerja sistem untuk mengidentifikasi bottleneck dan area yang dapat dioptimalkan. Ini membantu dalam membuat keputusan yang berdasarkan data untuk meningkatkan kinerja aplikasi.
 * Load Balancing yang Efektif: Menggunakan load balancer yang terkonfigurasi dengan baik dapat mendistribusikan beban secara merata di seluruh server. Hal ini tidak hanya meningkatkan kinerja tetapi juga memastikan kelancaran jaringan dan mencegah satu titik kegagalan.
 * Kelancaran koneksi internet: Stabilitas koneksi internet yang baik memastikan bahwa permintaan dari klien dapat diterima dan diteruskan ke server tanpa gangguan. Koneksi yang tidak stabil dapat menyebabkan kehilangan paket data atau latency tinggi, yang mengurangi efisiensi load balancer. Selain itu, load balancer sering kali menangani banyak permintaan sekaligus, sehingga memerlukan bandwidth yang cukup untuk menjalankan operasinya secara efektif. Koneksi internet yang buruk dengan bandwidth terbatas dapat menjadi bottleneck, mengurangi kemampuan load balancer untuk menangani beban kerja tinggi.
+
+## Video revisi
+https://youtu.be/VskXtc3cLOE?si=KfP6XimP0mqQ1vdI 
